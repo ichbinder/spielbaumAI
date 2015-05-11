@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 
 import client.SpielClient;
 
@@ -32,28 +30,19 @@ public class CmdTest
 			
 			if (arge.get(0).equals("client")) {
 				ClientOptions opt = new ClientOptions();
-				CmdTest.cmdPaser(arge, opt);
-				System.out.println(opt.getStart());
+				JCommander cmd = CmdTest.cmdPaser(arge, opt);
 				if (opt.getStart() == true) {
-					SpielClient sp = new SpielClient();
+					SpielClient sp = new SpielClient(opt.getClientName(), opt.getGameServerIP(), opt.getPathToImage(), opt.getIntercomPort(), opt.getIntercomIP());
 					sp.start();
 					System.out.println("Client Starded!");
-				}
+				} if (opt.getHelp() == true)
+					cmd.usage();
 			} else if (arge.get(0).equals("server")) {
 				
 			} 
 			
 		} while (!arge.get(0).equals("end"));
 		
-		
-//		if (!opt.getClientName().isEmpty())
-//		{
-//			SpielClient sp = new SpielClient("localhost", "8080", "localhost",
-//					"Client1", "META-INF/icon.png");
-//			SpielClient sp = new SpielClient();
-//			sp.start();
-//			System.out.println("Client Starded!");
-//		}
 	}
 	
 	static JCommander cmdPaser(List<String> arg, Object opt) {

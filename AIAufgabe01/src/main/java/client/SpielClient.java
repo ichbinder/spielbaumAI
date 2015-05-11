@@ -15,7 +15,6 @@ import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.net.httpserver.HttpServer;
 
 
-
 @Path("client") 
 public class SpielClient extends Thread
 {
@@ -27,24 +26,15 @@ public class SpielClient extends Thread
 	private HttpServer		restServer;
 	private NetworkClient	netc;
 
-//	public SpielClient(String gmaeServerIP, String intercomPort,
-//			String intercomIP, String clientName, String pathToImage)
-	public SpielClient()
+	public SpielClient(String clientName, String gmaeServerIP, String pathToImage, String intercomPort, String intercomIP)
 	{
-//		this.clientName = clientName;
-//		this.gameServerIP = gmaeServerIP;
-//		this.pathToImage = pathToImage;
-//		this.intercomPort = intercomPort;
-//		this.intercomIP = intercomIP;
+		this.clientName = clientName;
+		this.gameServerIP = gmaeServerIP;
+		this.pathToImage = pathToImage;
+		this.intercomPort = intercomPort;
+		this.intercomIP = intercomIP;
 		this.restServer = null;
 		this.netc = null;
-		
-		this.clientName = "test";
-		this.gameServerIP = "localhost";
-		this.pathToImage = "/home/jakob/git/spielbaumAI/AIAufgabe01/META-INF/icon.png";
-		this.intercomPort = "8080";
-		this.intercomIP = "localhost";
-		
 		
 	}
 
@@ -92,14 +82,4 @@ public class SpielClient extends Thread
 		System.exit(0);
 		return "Stoped!";
 	}
-
-	
-//	public static void main(String[] args)
-//	{
-////		SpielClient sc = new SpielClient("localhost", "8080", "localhost",
-////				"Client1", "META-INF/icon.png");
-//		SpielClient sc = new SpielClient();
-//		sc.start();
-//	
-//	}
 }
