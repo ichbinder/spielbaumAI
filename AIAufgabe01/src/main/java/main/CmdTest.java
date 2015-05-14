@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import server.GameServer;
 import client.SpielClient;
 
 import com.beust.jcommander.JCommander;
@@ -38,8 +39,15 @@ public class CmdTest
 				} if (opt.getHelp() == true)
 					cmd.usage();
 			} else if (arge.get(0).equals("server")) {
-				
-			} 
+				ServerOptions so = new ServerOptions();
+				JCommander cmd = CmdTest.cmdPaser(arge, so);
+				if (so.getStart() == true) {
+					GameServer gs = new GameServer();
+					gs.start();
+					System.out.println("Server Starded!");
+				}	if (so.getHelp() == true)
+					cmd.usage();
+			}
 			
 		} while (!arge.get(0).equals("end"));
 		
