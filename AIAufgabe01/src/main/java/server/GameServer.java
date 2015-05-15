@@ -8,7 +8,8 @@ public class GameServer extends Thread
 	{
 		try
 		{
-			Runtime.getRuntime().exec("java -jar /home/jakob/git/spielbaumAI/AIAufgabe01/META-INF/kimpl.jar");
+			System.out.println(getClass().getResource("/META-INF/kimpl.jar"));
+			Runtime.getRuntime().exec("java -jar " + getClass().getResource("/META-INF/kimpl.jar"));
 //			ProcessBuilder p = new ProcessBuilder("java -jar /home/jakob/git/spielbaumAI/AIAufgabe01/META-INF/kimpl.jar");
 //			p.start();
 		} catch (IOException e)

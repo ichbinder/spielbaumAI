@@ -9,7 +9,7 @@ public class ClientOptions
 	@Parameter(names = {"-n", "--name"}, description = "Client Name")
 	private String	name = "Client";
 	
-	@Parameter(names = {"-s", "--start"}, description = "Start Client")
+	@Parameter(names = {"-s", "--start"}, required = true, description = "Start Client")
 	private boolean	start;
 	
 	@Parameter(names = {"-gip", "--gameServerIP"}, description = "Game Server IP Address")
@@ -22,7 +22,7 @@ public class ClientOptions
 	private String	intercomIP = "localhost";
 	
 	@Parameter(names = {"-i", "--pathToImage"}, description = "Start Client")
-	private String	pathToImage = "/home/jakob/git/spielbaumAI/AIAufgabe01/META-INF/icon.png";
+	private String	pathToImage = "/META-INF/icon.png";
 	
 	@Parameter(names = {"-h", "--help"}, help = true, description = "Show this help.")
 	private boolean help;

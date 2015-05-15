@@ -8,7 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 import server.GameServer;
-import client.SpielClient;
+import client.Client;
+import client.IClient;
+import client.agent.IAgent;
+import client.agent.RandomAgent;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
@@ -33,8 +36,9 @@ public class CmdTest
 				ClientOptions opt = new ClientOptions();
 				JCommander cmd = CmdTest.cmdPaser(arge, opt);
 				if (opt.getStart() == true) {
-					SpielClient sp = new SpielClient(opt.getClientName(), opt.getGameServerIP(), opt.getPathToImage(), opt.getIntercomPort(), opt.getIntercomIP());
-					sp.start();
+					IAgent ra = new RandomAgent();
+					IClient sp = new Client(opt.getClientName(), ra);
+					sp.Connect(opt.getGameServerIP());
 					System.out.println("Client Starded!");
 				} if (opt.getHelp() == true)
 					cmd.usage();

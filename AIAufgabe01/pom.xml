@@ -40,6 +40,11 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>${basedir}/META-INF/resources/META-INF</directory>
+			</resource>
+		</resources>
 	</build>
 	<dependencies>
 		<dependency>
