@@ -62,6 +62,7 @@ public class GameTreeAgent implements IAgent {
 		}
 		
 		boolean IsPlayerMove = Board.IsPlayersView();
+		int NodePoolIndexBuffer = NodePoolIndex;
 		LinkedList<TreeNode> SortedList = new LinkedList<TreeNode>();
 		byte[][] PiecePositions = Board.GetPiecePositions();
 		
@@ -147,13 +148,27 @@ public class GameTreeAgent implements IAgent {
 		
 		Board.Pop();
 		
+		//Release Nodes to pool
+		NodePoolIndex = NodePoolIndexBuffer;
+		
 		return ValueBuffer;
 	}
 	
 	private final void SetupNode(LinkedList<TreeNode> SortedList, TreeNode Parent, int fromX, int fromY, int ToX, int ToY)
 	{
+		TreeNode NewNode = null;
+		if(NodePoolIndex >= 5000)
+		{
+			NewNode = new TreeNode();
+			NodePoolIndex++;
+			System.out.println("Tree Node Pool too small! Current Value: " + NodePoolIndex);
+		}
+		else
+		{
+			NewNode = NodePool[NodePoolIndex++];
+		}
+		
 		int Value =  Evaluator.Evaluate(Board);
-		TreeNode NewNode = NodePool[NodePoolIndex++];
 		NewNode.Setup(Parent, Value, fromX, fromY, ToX, ToY);
 		Board.Pop();
 		
