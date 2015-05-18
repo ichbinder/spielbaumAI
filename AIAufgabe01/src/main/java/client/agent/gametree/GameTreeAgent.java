@@ -18,10 +18,7 @@ public class GameTreeAgent implements IAgent {
 	private int NodePoolIndex = 0;
 	private List<TreeNode> BestLeafs = new Vector<TreeNode>(6);
 	
-	private int Alpha = Integer.MIN_VALUE;
-	private int Beta = Integer.MAX_VALUE;
 	private IStackHistoryBoard Board = null;
-	
 	private IEvaluator Evaluator = null;
 
 	public GameTreeAgent(IEvaluator Evaluator)
@@ -35,7 +32,7 @@ public class GameTreeAgent implements IAgent {
 		Board.Setup(GameBoard);
 		
 		//Start GameTree Calculation
-		ComputeTreeLevel(1, null);
+		ComputeTreeLevel(1, null, Integer.MIN_VALUE, Integer.MAX_VALUE);
 		
 		//No valid move found
 		if(BestLeafs.isEmpty())
@@ -46,26 +43,17 @@ public class GameTreeAgent implements IAgent {
 		else
 		{
 			int RandomLeaf = Rng.nextInt(BestLeafs.size());
-			return LeafToMove(BestLeafs.get(RandomLeaf));
+			return BestLeafs.get(RandomLeaf).Move;
 		}
 	}
 	
-	private final Move LeafToMove(TreeNode Node) 
-	{
-		
-		return null;
-	}
-
 	private final void Reset()
 	{
 		NodePoolIndex = 0;
-		Alpha = Integer.MIN_VALUE;
-		Beta = Integer.MAX_VALUE;
-		
 		BestLeafs.clear();
 	}
 	
-	private final int ComputeTreeLevel(int MaxPlayerRounds, TreeNode Parent)
+	private final int ComputeTreeLevel(int MaxPlayerRounds, TreeNode Parent, int Alpha, int Beta)
 	{
 		//Abort if leaf is reached
 		if(MaxPlayerRounds == 0)
@@ -108,36 +96,55 @@ public class GameTreeAgent implements IAgent {
 		
 		// Make Rekursive Call through List
 		ListIterator<TreeNode> It = SortedList.listIterator();
-		int ValueBuffer = IsPlayerMove ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+		int ValueBuffer = IsPlayerMove ? Alpha : Beta;
 		Board.RotateBoard();
-		while(It.hasNext())
+		//If no valid move is possible
+		if(SortedList.isEmpty())
 		{
-			TreeNode Node = It.next();
-			int Value = ComputeTreeLevel(MaxPlayerRounds, Node);
-			//If Player turn return best value & save move when root node
-			if(IsPlayerMove && (Value >= ValueBuffer))
+			ValueBuffer = IsPlayerMove ? Integer.MIN_VALUE : ComputeTreeLevel(MaxPlayerRounds, Parent, Alpha, Beta);
+		}
+		else 
+		{
+			while(It.hasNext())
 			{
-				//If Root Child add it as possible move
-				if(Parent == null)
+				TreeNode Node = It.next();
+				int AlphaTmp = IsPlayerMove ? ValueBuffer : Alpha;
+				int BetaTmp = !IsPlayerMove ? Beta : ValueBuffer;
+				int Value = ComputeTreeLevel(MaxPlayerRounds, Node, AlphaTmp, BetaTmp);
+				//If Player turn return best value & save move when root node
+				if(IsPlayerMove && (Value >= ValueBuffer))
 				{
-					//If better than previous move wipe it
-					if(Value > ValueBuffer)
+					//If Root Child add it as possible move
+					if(Parent == null)
 					{
-						BestLeafs.clear();
+						//If better than previous move wipe it
+						if(Value > ValueBuffer)
+						{
+							BestLeafs.clear();
+						}
+						
+						BestLeafs.add(Node);
 					}
 					
-					BestLeafs.add(Node);
+					ValueBuffer = Value;
+					if(ValueBuffer >= Beta)
+					{
+						break;
+					}
 				}
-				
-				ValueBuffer = Value;
-			}
-
-			//If not Player turn return worst value
-			if(!IsPlayerMove && (Value < ValueBuffer))
-			{
-				ValueBuffer = Value;
+	
+				//If not Player turn return worst value
+				if(!IsPlayerMove && (Value < ValueBuffer))
+				{
+					ValueBuffer = Value;
+					if(ValueBuffer <= Alpha)
+					{
+						break;
+					}
+				}
 			}
 		}
+		
 		Board.Pop();
 		
 		return ValueBuffer;
