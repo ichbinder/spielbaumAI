@@ -16,7 +16,7 @@ public class GameTreeAgent implements IAgent {
 	private Random Rng = new Random();
 	private TreeNode[] NodePool = new TreeNode[5000];
 	private int NodePoolIndex = 0;
-	private List<TreeNode> BestLeafs = new Vector<TreeNode>();
+	private List<TreeNode> BestLeafs = new Vector<TreeNode>(6);
 	
 	private int Alpha = Integer.MIN_VALUE;
 	private int Beta = Integer.MAX_VALUE;
@@ -65,8 +65,15 @@ public class GameTreeAgent implements IAgent {
 		BestLeafs.clear();
 	}
 	
-	private final void ComputeTreeLevel(int MaxPlayerRounds, TreeNode Parent)
+	private final int ComputeTreeLevel(int MaxPlayerRounds, TreeNode Parent)
 	{
+		//Abort if leaf is reached
+		if(MaxPlayerRounds == 0)
+		{
+			return Parent.Value;
+		}
+		
+		boolean IsPlayerMove = Board.IsPlayersView();
 		LinkedList<TreeNode> SortedList = new LinkedList<TreeNode>();
 		byte[][] PiecePositions = Board.GetPiecePositions();
 		
@@ -94,28 +101,46 @@ public class GameTreeAgent implements IAgent {
 			}
 		}
 		
-		if(Board.IsPlayersView() && (Parent != null));
+		if(IsPlayerMove && (Parent != null));
 		{
 			MaxPlayerRounds--;
 		}
 		
-		if(MaxPlayerRounds > 0)
+		// Make Rekursive Call through List
+		ListIterator<TreeNode> It = SortedList.listIterator();
+		int ValueBuffer = IsPlayerMove ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+		Board.RotateBoard();
+		while(It.hasNext())
 		{
-			// Make Rekursive Call through List
-			ListIterator<TreeNode> It = SortedList.listIterator();
-			Board.RotateBoard();
-			while(It.hasNext())
+			TreeNode Node = It.next();
+			int Value = ComputeTreeLevel(MaxPlayerRounds, Node);
+			//If Player turn return best value & save move when root node
+			if(IsPlayerMove && (Value >= ValueBuffer))
 			{
-				TreeNode Node = It.next();
-				ComputeTreeLevel(MaxPlayerRounds, Node);
-			}
-			Board.Pop();
-		}
-		else
-		{
-			//if last level reached run Alpha-Beta/Min-Max
+				//If Root Child add it as possible move
+				if(Parent == null)
+				{
+					//If better than previous move wipe it
+					if(Value > ValueBuffer)
+					{
+						BestLeafs.clear();
+					}
+					
+					BestLeafs.add(Node);
+				}
 				
+				ValueBuffer = Value;
+			}
+
+			//If not Player turn return worst value
+			if(!IsPlayerMove && (Value < ValueBuffer))
+			{
+				ValueBuffer = Value;
+			}
 		}
+		Board.Pop();
+		
+		return ValueBuffer;
 	}
 	
 	private final void SetupNode(LinkedList<TreeNode> SortedList, TreeNode Parent, int fromX, int fromY, int ToX, int ToY)
