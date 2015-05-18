@@ -10,4 +10,5 @@ public interface IBoard {
 	
 	public byte[][] GetPosition(byte PlayerID);
 	byte GetField(byte x, byte y);
+	boolean[] GetActivePlayers();
 }

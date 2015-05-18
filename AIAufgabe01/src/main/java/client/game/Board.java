@@ -8,10 +8,18 @@ public final class Board implements IBoard {
 	private byte[][] Field = new byte[8][8];
 	private byte[][] Index = new byte[8][8];
 	private byte[][][] Position = new byte[4][6][2];
+	private boolean[] ActivePlayers = new boolean[4];
+	private byte NextPlayer = (byte) 255;
 	
 	public Board(byte PlayerID)
 	{
 		this.PlayerID = PlayerID;
+		this.NextPlayer = (byte)((4 - (int)PlayerID) % 4);
+			
+		for(byte i = 0; i < 4; i++)
+		{
+			ActivePlayers[i] = true;
+		}
 		
 		//Initialize Board
 		for(byte i = 1; i <= 6; i++)
@@ -95,6 +103,9 @@ public final class Board implements IBoard {
 		byte PlayerID = (byte)(Field[Move.fromX][Move.fromY] - 1);	
 		byte PositionIndex = Index[Move.fromX][Move.fromY];	
 		
+		//Check of Player was beaten
+		CheckIfPlayerIsBeaten(PlayerID);
+		
 		//Check if other is taken
 		if(Field[Move.toX][Move.toY] != 0)
 		{
@@ -114,6 +125,27 @@ public final class Board implements IBoard {
 		Position[PlayerID][PositionIndex][1] = (byte)Move.toY;		
 	}
 	
+	private final void CheckIfPlayerIsBeaten(byte MovingPlayer)
+	{
+		//It should be others turn, so he is beaten
+		if(MovingPlayer != NextPlayer)
+		{
+			ActivePlayers[NextPlayer] = false;
+			NextPlayer = MovingPlayer;
+		}
+		
+		//Get next ActivePlayer
+		for(byte i = 1; i < 4; i++)
+		{
+			byte NewNextPlayer = (byte) ((NextPlayer + i) % 4);
+			if(ActivePlayers[NewNextPlayer])
+			{
+				NextPlayer = NewNextPlayer;
+				break;
+			}
+		}
+	}
+	
 	public byte[][] GetPosition(byte PlayerID)
 	{
 		return Position[PlayerID - 1];
@@ -121,5 +153,10 @@ public final class Board implements IBoard {
 	
 	public byte GetField(byte x, byte y) {
 		return Field[x][y];
+	}
+	
+	public boolean[] GetActivePlayers()
+	{
+		return ActivePlayers;
 	}
 }
