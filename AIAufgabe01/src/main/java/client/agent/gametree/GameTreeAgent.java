@@ -18,7 +18,7 @@ public class GameTreeAgent implements IAgent {
 	private int NodePoolIndex = 0;
 	private List<TreeNode> BestLeafs = new Vector<TreeNode>(6);
 	
-	private IStackHistoryBoard Board = null;
+	private IStackHistoryBoard Board = new StackHistoryBoard();
 	private IEvaluator Evaluator = null;
 
 	public GameTreeAgent(IEvaluator Evaluator)

@@ -1,8 +1,9 @@
 package client.agent.gametree;
 
 import client.game.IBoard;
+import evaluator.IEvaluatorBoard;
 
-public interface IStackHistoryBoard extends IBoard {
+public interface IStackHistoryBoard extends IEvaluatorBoard {
 	
 	void Setup(IBoard CurrentBoard);
 	

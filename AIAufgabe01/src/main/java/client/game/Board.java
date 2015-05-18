@@ -1,5 +1,6 @@
 package client.game;
 
+import evaluator.IEvaluatorBoard;
 import lenz.htw.kimpl.Move;
 
 public final class Board implements IBoard {
