@@ -96,11 +96,18 @@ public final class GameTreeAgent implements IAgent {
 		//When current player is out, just rotate and skip to next one
 		if(!Board.IsCurrentPlayerActive())
 		{
-			int Value = 0;
-			Board.RotateBoard();
-			Value = ComputeTreeLevel(MaxPlayerRounds, Parent, Alpha, Beta);
-			Board.Pop();
-			return Value;
+			if(Board.IsPlayersView())
+			{
+				return Integer.MIN_VALUE;
+			}
+			else
+			{
+				int Value = 0;
+				Board.RotateBoard();
+				Value = ComputeTreeLevel(MaxPlayerRounds, Parent, Alpha, Beta);
+				Board.Pop();
+				return Value;			
+			}
 		}
 		
 		boolean IsPlayerMove = Board.IsPlayersView();
