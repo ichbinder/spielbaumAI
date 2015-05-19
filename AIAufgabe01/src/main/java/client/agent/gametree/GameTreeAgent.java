@@ -1,22 +1,24 @@
 package client.agent.gametree;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
-import java.util.Vector;
 
 import lenz.htw.kimpl.Move;
 import client.agent.IAgent;
 import client.game.IBoard;
 import evaluator.IEvaluator;
 
-public class GameTreeAgent implements IAgent {
+public final class GameTreeAgent implements IAgent {
 
+	private static final int InitialNodePoolSize = 5000;
+	
 	private Random Rng = new Random();
-	private TreeNode[] NodePool = new TreeNode[5000];
+	private ArrayList<TreeNode> NodePool = null;
 	private int NodePoolIndex = 0;
-	private List<TreeNode> BestLeafs = new Vector<TreeNode>(6);
+	private List<TreeNode> BestLeafs = new ArrayList<TreeNode>(18);
 	
 	private IStackHistoryBoard Board = new StackHistoryBoard();
 	private IEvaluator Evaluator = null;
@@ -24,6 +26,16 @@ public class GameTreeAgent implements IAgent {
 	public GameTreeAgent(IEvaluator Evaluator)
 	{
 		this.Evaluator = Evaluator;
+		NodePool = new ArrayList<TreeNode>(InitialNodePoolSize);
+		for(int i = 0; i < InitialNodePoolSize; i++)
+		{
+			NodePool.add(new TreeNode());
+		}
+	}
+	
+	public final int GetNodePoolSize()
+	{
+		return NodePool.size();
 	}
 	
 	public final Move CalculateMove(IBoard GameBoard) {
@@ -167,17 +179,12 @@ public class GameTreeAgent implements IAgent {
 	
 	private final void SetupNode(LinkedList<TreeNode> SortedList, TreeNode Parent, int fromX, int fromY, int ToX, int ToY)
 	{
-		TreeNode NewNode = null;
-		if(NodePoolIndex >= 5000)
+		if(NodePoolIndex >= NodePool.size())
 		{
-			NewNode = new TreeNode();
-			NodePoolIndex++;
-			System.out.println("Tree Node Pool too small! Current Value: " + NodePoolIndex);
+			NodePool.add(new TreeNode());
 		}
-		else
-		{
-			NewNode = NodePool[NodePoolIndex++];
-		}
+
+		TreeNode NewNode = NodePool.get(NodePoolIndex++);
 		
 		int Value =  Evaluator.Evaluate(Board);
 		NewNode.Setup(Parent, Value, fromX, fromY, ToX, ToY);
