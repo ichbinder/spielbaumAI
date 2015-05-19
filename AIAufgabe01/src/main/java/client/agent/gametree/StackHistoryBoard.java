@@ -400,7 +400,7 @@ public final class StackHistoryBoard implements IStackHistoryBoard {
 		return ActivePlayers[CurrentDirection];
 	}
 
-	private final void PrintFieldAndIndex()
+	public final static void PrintFieldAndIndex(byte[][] Field, byte[][]Index)
 	{
 		for(int i = 7; i >= 0; i--)
 		{
@@ -421,7 +421,7 @@ public final class StackHistoryBoard implements IStackHistoryBoard {
 		}
 	}
 	
-	private final void PrintPlayerPositions()
+	public final static void PrintPlayerPositions(byte[][][] Position)
 	{
 		System.out.println("Player Positions:");
 		for(int i = 0; i < 4; i++)
@@ -443,7 +443,25 @@ public final class StackHistoryBoard implements IStackHistoryBoard {
 		}
 	}
 	
-	private final void PrintActivePlayer()
+	public final static void PrintPlayerPositions(byte[][] Position)
+	{
+		String tmp = "";
+		for(int j = 0; j < 6; j++)
+		{
+			if(Position[j][0] == -1)
+			{
+				tmp += "   x   ";
+			}
+			else
+			{
+				tmp += "  " + Position[j][0] + "-" + Position[j][1] + "  ";
+			}
+		}
+		
+		System.out.println(tmp);
+	}
+	
+	public final static void PrintActivePlayer(boolean[] ActivePlayers)
 	{
 		String tmp = "";
 		for(int i = 0; i < 4; i++)
@@ -453,5 +471,6 @@ public final class StackHistoryBoard implements IStackHistoryBoard {
 
 		System.out.println("ActivePlayer: {" + tmp + "}");
 	}
+	
 	
 }
