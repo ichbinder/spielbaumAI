@@ -18,4 +18,6 @@ public interface IStackHistoryBoard extends IEvaluatorBoard {
 	void Pop();
 	boolean IsPlayersView();
 	boolean IsCurrentPlayerActive();
+	
+	int GetStackPoolSize();
 }

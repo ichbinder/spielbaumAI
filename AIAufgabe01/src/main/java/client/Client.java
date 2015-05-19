@@ -88,6 +88,6 @@ public class Client implements IClient, Runnable {
 
 	private void CleanUp()
 	{
-		
+		Bot.PrintStats();
 	}
 }

@@ -43,7 +43,7 @@ public final class StackHistoryBoard implements IStackHistoryBoard {
 		}
 	}
 	
-	public final int GetStackSize()
+	public final int GetStackPoolSize()
 	{
 		return Stack.size();
 	}

@@ -36,24 +36,24 @@ public class RandomAgent implements IAgent {
 			ListIndex = Rng.nextInt(Indices.size());
 			PieceIndex = Indices.get(ListIndex);
 			Indices.remove(ListIndex);
-			System.out.println("Looking for Index - " + PieceIndex);
+			//System.out.println("Looking for Index - " + PieceIndex);
 			
 			if(Positions[PieceIndex][0] == -1)
 			{
-				System.out.println("No Piece!");
+				//System.out.println("No Piece!");
 				continue;
 			}
 			
 			byte X = Positions[PieceIndex][0];
 			byte Y = Positions[PieceIndex][1];
 
-			System.out.println("Piece " + X + " - " + Y);
+			//System.out.println("Piece " + X + " - " + Y);
 			
 			byte NewY = (byte)(Y + 1);
 			
 			if(NewY > 7)
 			{
-				System.out.println("Piece at end of Board");
+				//System.out.println("Piece at end of Board");
 				continue;
 			}
 			
@@ -74,6 +74,10 @@ public class RandomAgent implements IAgent {
 
 			System.out.println("No Move found!");
 		}
+	}
+
+	public final void PrintStats() {
+		//Nothing to do;
 	}
 	
 }

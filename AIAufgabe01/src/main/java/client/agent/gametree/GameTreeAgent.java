@@ -34,10 +34,10 @@ public final class GameTreeAgent implements IAgent {
 			NodePool.add(new TreeNode());
 		}
 	}
-	
-	public final int GetNodePoolSize()
-	{
-		return NodePool.size();
+
+	public final void PrintStats() {
+		System.out.println("Node Pool Size: " + NodePool.size());
+		System.out.println("Board Stack Size: " + Board.GetStackPoolSize());
 	}
 	
 	public final Move CalculateMove(IBoard GameBoard) {
@@ -222,7 +222,5 @@ public final class GameTreeAgent implements IAgent {
 		{
 			SortedList.add(NewNode);
 		}
-	}
-	
-
+	}	
 }
