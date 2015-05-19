@@ -40,7 +40,7 @@ public final class Board implements IBoard {
 		Position[PlayerID][i][1] = y;
 	}
 	
-	public static final void RotateMove(Move Move, byte CounterClockwiseSteps)
+	public static final void RotateMove(Move Move, int CounterClockwiseSteps)
 	{
 		if((CounterClockwiseSteps == 0) || (CounterClockwiseSteps == 4))
 		{
@@ -84,12 +84,12 @@ public final class Board implements IBoard {
 	
 	public final void RotateToPlayerSpace(Move Move)
 	{
-		RotateMove(Move, (byte)(4 - PlayerID));
+		RotateMove(Move, (4 - PlayerID));
 	}
 	
 	public final void RotateToGameSpace(Move Move)
 	{
-		RotateMove(Move, (byte)(PlayerID));
+		RotateMove(Move, PlayerID);
 	}
 	
 	public final void ProcessMove(Move Move) 
