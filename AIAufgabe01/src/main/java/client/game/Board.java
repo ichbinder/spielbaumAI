@@ -104,7 +104,7 @@ public final class Board implements IBoard {
 	public final void ProcessMove(Move Move) 
 	{
 		RotateToPlayerSpace(Move);
-		System.out.println(PlayerID + ": Recieved rotated Move " + Move);
+		//System.out.println(PlayerID + ": Recieved rotated Move " + Move);
 		MovePiece(Move);
 	}
 
