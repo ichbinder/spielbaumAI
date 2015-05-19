@@ -321,7 +321,7 @@ public final class StackHistoryBoard implements IStackHistoryBoard {
 		}
 	}
 
-	private final byte RotateX(byte X, byte Y, int CounterClockwiseSteps)
+	private final byte RotateX(byte X, byte Y, int ClockwiseSteps)
 	{	
 		/*
 		 * 		x,y
@@ -330,20 +330,20 @@ public final class StackHistoryBoard implements IStackHistoryBoard {
 		 * 			y,7-x
 		 */	
 	
-		switch(CounterClockwiseSteps) 
+		switch(ClockwiseSteps) 
 		{
-			case 1: //Right
+			case 3: //Right
 				return (byte) (7 - Y);
 			case 2: //Opposite
 				return (byte) (7 - X);
-			case 3: //Left
+			case 1: //Left
 				return Y;
 			default: 
 				return X;
 		}
 	}
 	
-	private final byte RotateY(byte X, byte Y, int CounterClockwiseSteps)
+	private final byte RotateY(byte X, byte Y, int ClockwiseSteps)
 	{	
 		/*
 		 * 		x,y
@@ -352,13 +352,13 @@ public final class StackHistoryBoard implements IStackHistoryBoard {
 		 * 			y,7-x
 		 */	
 		
-		switch(CounterClockwiseSteps) 
+		switch(ClockwiseSteps) 
 		{
-			case 1: //Right
+			case 3: //Right
 				return X;
 			case 2: //Opposite
 				return (byte) (7 - Y);
-			case 3: //Left
+			case 1: //Left
 				return (byte) (7 - X);
 			default: 
 				return Y;
