@@ -75,4 +75,14 @@ public class StackHistoryBoard implements IStackHistoryBoard {
 		return false;
 	}
 
+	public void DoMove(Move Move) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void Forfeit() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

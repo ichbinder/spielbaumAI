@@ -102,7 +102,16 @@ public class GameTreeAgent implements IAgent {
 		//If no valid move is possible
 		if(SortedList.isEmpty())
 		{
-			ValueBuffer = IsPlayerMove ? Integer.MIN_VALUE : ComputeTreeLevel(MaxPlayerRounds, Parent, Alpha, Beta);
+			if(IsPlayerMove)
+			{
+				ValueBuffer = Integer.MIN_VALUE;
+			}
+			else
+			{
+				Board.Forfeit();
+				ValueBuffer = ComputeTreeLevel(MaxPlayerRounds, Parent, Alpha, Beta);
+				Board.Pop();
+			}
 		}
 		else 
 		{
@@ -111,7 +120,9 @@ public class GameTreeAgent implements IAgent {
 				TreeNode Node = It.next();
 				int AlphaTmp = IsPlayerMove ? ValueBuffer : Alpha;
 				int BetaTmp = !IsPlayerMove ? Beta : ValueBuffer;
+				Board.DoMove(Node.Move);
 				int Value = ComputeTreeLevel(MaxPlayerRounds, Node, AlphaTmp, BetaTmp);
+				Board.Pop();
 				//If Player turn return best value & save move when root node
 				if(IsPlayerMove && (Value >= ValueBuffer))
 				{
