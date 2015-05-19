@@ -32,17 +32,17 @@ public class RandomAgent implements IAgent {
 			
 			byte NewY = (byte)(Y + 1);
 			
-			if((X != 0) && (GameBoard.GetField((byte)(X - 1), NewY) > 1))
+			if((X != 0) && (GameBoard.GetField((byte)(X - 1), NewY) > 0))
 			{
 				return new Move(X,Y, X - 1, NewY);
 			}
 
-			if((X != 7) && (GameBoard.GetField((byte)(X + 1), NewY) > 1))
+			if((X != 7) && (GameBoard.GetField((byte)(X + 1), NewY) > 0))
 			{
 				return new Move(X,Y, X + 1, NewY);
 			}
 			
-			if(GameBoard.GetField(X, NewY) == 0)
+			if(GameBoard.GetField(X, NewY) == -1)
 			{
 				return new Move(X,Y, X, NewY);
 			}
