@@ -117,7 +117,7 @@ public final class GameTreeAgent implements IAgent {
 			}
 		}
 		
-		if(IsPlayerMove && (Parent != null));
+		if(IsPlayerMove && (Parent != null))
 		{
 			MaxPlayerRounds--;
 		}
