@@ -161,12 +161,12 @@ public final class StackHistoryBoard implements IStackHistoryBoard {
 		return true;
 	}
 
-	public void DoMove(Move Move) {
+	public final void DoMove(Move Move) {
 		CopyMove(Move);
 		//Rotate Move
 		Board.RotateMove(MoveBuffer, CurrentDirection);
 		//Process Move
-		ProcessMove(Move);
+		ProcessMove(MoveBuffer);
 	}
 	
 	private final void ProcessMove(Move Move)
