@@ -213,6 +213,7 @@ public final class GameTreeAgent implements IAgent {
 			TreeNode Element = It.next();
 			if(Element.Value <= Value)
 			{
+				It.previous();
 				It.add(NewNode);
 				Inserted = true;
 				break;
