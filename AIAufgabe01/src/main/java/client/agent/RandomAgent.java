@@ -51,6 +51,12 @@ public class RandomAgent implements IAgent {
 			
 			byte NewY = (byte)(Y + 1);
 			
+			if(NewY > 7)
+			{
+				System.out.println("Piece at end of Board");
+				continue;
+			}
+			
 			if((X != 0) && (GameBoard.GetField((byte)(X - 1), NewY) > 0))
 			{
 				return new Move(X,Y, X - 1, NewY);
