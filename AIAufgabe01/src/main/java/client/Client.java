@@ -67,12 +67,22 @@ public class Client implements IClient, Runnable {
 			
 			//Calculate Own Move
 			Buffer = Bot.CalculateMove(GameBoard);
-			System.out.println("Move: " + Buffer);
-			GameBoard.RotateToGameSpace(Buffer);
-			System.out.println("Rotated Move: " + Buffer);
 			
-			//Send Out Move	
-			GameSocket.sendMove(Buffer);
+			if(Buffer == null)
+			{
+				System.out.println("GG");
+				GameSocket.sendMove(new Move(0,0,0,0));
+				Ingame = false;
+			}
+			else
+			{
+				System.out.println("Move: " + Buffer);
+				GameBoard.RotateToGameSpace(Buffer);
+				System.out.println("Rotated Move: " + Buffer);	
+				
+				//Send Out Move	
+				GameSocket.sendMove(Buffer);		
+			}			
 		}
 	}
 
