@@ -14,6 +14,7 @@ import evaluator.IEvaluator;
 public final class GameTreeAgent implements IAgent {
 
 	private static final int InitialNodePoolSize = 5000;
+	private static final int MaxRounds = 48;
 	
 	private Random Rng = new Random();
 	private ArrayList<TreeNode> NodePool = null;
@@ -24,6 +25,9 @@ public final class GameTreeAgent implements IAgent {
 	
 	private IStackHistoryBoard Board = new StackHistoryBoard();
 	private IEvaluator Evaluator = null;
+	
+	private long[] Runtimes = new long[MaxRounds];
+	private int Rounds = 0;
 
 	public GameTreeAgent(IEvaluator Evaluator)
 	{
@@ -38,6 +42,15 @@ public final class GameTreeAgent implements IAgent {
 	public final void PrintStats() {
 		System.out.println("Node Pool Size: " + NodePool.size());
 		System.out.println("Board Stack Size: " + Board.GetStackPoolSize());
+		System.out.println("Rounds: " + Rounds);
+		
+		long Sum = 0;
+		for(int i = 0; i < Rounds; i++)
+		{
+			Sum += Runtimes[i];
+		}
+		
+		System.out.println("Avg. Time: " + ((Sum/Rounds) / 1000000.f) + "ms");
 	}
 	
 	public final Move CalculateMove(IBoard GameBoard) {
@@ -45,8 +58,13 @@ public final class GameTreeAgent implements IAgent {
 
 		Board.Setup(GameBoard);
 		
+		long Start = System.nanoTime();
+		
 		//Start GameTree Calculation
-		ComputeTreeLevel(1, null, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		ComputeTreeLevel(2, null, Integer.MIN_VALUE, Integer.MAX_VALUE);
+
+		long End = System.nanoTime();
+		Runtimes[Rounds++] = End - Start;
 		
 		//No valid move found
 		if(BestLeafs.isEmpty())
