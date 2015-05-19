@@ -22,9 +22,9 @@ public final class Board implements IBoard {
 			ActivePlayers[i] = true;
 		}
 		
-		for(int i = 0; i < 7; i++)
+		for(int i = 0; i < 8; i++)
 		{
-			for(int j = 0; j < 7; j++)
+			for(int j = 0; j < 8; j++)
 			{
 				Field[i][j] = -1;
 				Index[i][j] = -1;
