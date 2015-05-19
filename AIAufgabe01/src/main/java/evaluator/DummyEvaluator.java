@@ -16,6 +16,9 @@ public class DummyEvaluator implements IEvaluator {
 			if(!ActivePlayerBuffer[i])
 			{
 				Score += 15;
+			}
+			else
+			{
 				Win = false;
 			}
 		}
