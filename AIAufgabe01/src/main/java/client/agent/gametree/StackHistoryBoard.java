@@ -59,6 +59,27 @@ public final class StackHistoryBoard implements IStackHistoryBoard {
 	public final void Setup(IBoard CurrentBoard) {
 		StackPointer = 0;
 		CurrentDirection = 0;
+		
+		byte[][] OriginalField = CurrentBoard.GetField();
+		byte[][] OriginalIndex = CurrentBoard.GetIndices();
+		for(int i = 0; i < 8; i++)
+		{
+			System.arraycopy(OriginalField[i], 0, Field[i], 0, 8);
+			System.arraycopy(OriginalIndex[i], 0, Index[i], 0, 8);
+		}	
+		
+		byte[][][] OriginalPosition = CurrentBoard.GetPositions();
+		for(int i = 0; i < 4; i++)
+		{
+			for(int j = 0; j < 6; j++)
+			{
+				Position[i][j][0] = OriginalPosition[i][j][0];
+				Position[i][j][1] = OriginalPosition[i][j][1];
+			}
+		}
+		
+		boolean[] OriginalActivePlayers = CurrentBoard.GetActivePlayers();
+		System.arraycopy(OriginalActivePlayers, 0, ActivePlayers, 0, 4);
 	}
 
 	public final boolean IsPlayersView() {

@@ -174,4 +174,20 @@ public final class Board implements IBoard {
 				Positions[i][1]	= Position[PlayerID][i][1];
 		}
 	}
+
+	public final byte[][] GetField() {
+		return Field;
+	}
+
+	public final byte[][] GetIndices() {
+		return Index;
+	}
+
+	public final byte[][][] GetPositions() {
+		return Position;
+	}
+
+	public final boolean[] GetActivePlayers() {
+		return ActivePlayers;
+	}
 }

@@ -8,4 +8,9 @@ public interface IBoard extends IEvaluatorBoard {
 
 	void RotateToPlayerSpace(Move Move);
 	void RotateToGameSpace(Move Move);
+
+	byte[][] GetField();
+	byte[][] GetIndices();
+	byte[][][] GetPositions();
+	boolean[] GetActivePlayers();
 }
