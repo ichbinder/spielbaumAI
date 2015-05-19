@@ -7,7 +7,7 @@ public class TreeNode {
 	public int Value = 0;
 	public Move Move = new Move(0,0,0,0);
 	
-	void Setup(TreeNode Parent, int Value, int fromX, int fromY, int ToX, int ToY)
+	public void Setup(TreeNode Parent, int Value, int fromX, int fromY, int ToX, int ToY)
 	{
 		this.Parent = Parent;
 		this.Value = Value;
@@ -16,4 +16,11 @@ public class TreeNode {
 		this.Move.toX = ToX;
 		this.Move.toY = ToY;
 	}
+	
+	public String toString()
+	{
+		return "[ Value:" + Value + "; Move: " + Move + "]"; 	
+	}
+	
+	
 }
