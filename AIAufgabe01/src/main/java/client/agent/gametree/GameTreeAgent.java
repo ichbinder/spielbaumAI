@@ -125,7 +125,6 @@ public final class GameTreeAgent implements IAgent {
 		// Make Rekursive Call through List
 		ListIterator<TreeNode> It = SortedList.listIterator();
 		int ValueBuffer = IsPlayerMove ? Alpha : Beta;
-		Board.RotateBoard();
 		//If no valid move is possible
 		if(SortedList.isEmpty())
 		{
@@ -136,7 +135,9 @@ public final class GameTreeAgent implements IAgent {
 			else
 			{
 				Board.Forfeit();
+				Board.RotateBoard();
 				ValueBuffer = ComputeTreeLevel(MaxPlayerRounds, Parent, Alpha, Beta);
+				Board.Pop();
 				Board.Pop();
 			}
 		}
@@ -148,7 +149,9 @@ public final class GameTreeAgent implements IAgent {
 				int AlphaTmp = IsPlayerMove ? ValueBuffer : Alpha;
 				int BetaTmp = !IsPlayerMove ? Beta : ValueBuffer;
 				Board.DoMove(Node.Move);
+				Board.RotateBoard();
 				int Value = ComputeTreeLevel(MaxPlayerRounds, Node, AlphaTmp, BetaTmp);
+				Board.Pop();
 				Board.Pop();
 				//If Player turn return best value & save move when root node
 				if(IsPlayerMove && (Value >= ValueBuffer))
@@ -183,8 +186,6 @@ public final class GameTreeAgent implements IAgent {
 				}
 			}
 		}
-		
-		Board.Pop();
 		
 		//Release Nodes to pool
 		NodePoolIndex = NodePoolIndexBuffer;
