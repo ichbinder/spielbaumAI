@@ -80,19 +80,85 @@ public final class StackHistoryBoard implements IStackHistoryBoard {
 		return Stack.get(--StackPointer);	
 	}
 	
-	public boolean MovePieceForward(byte X, byte Y) {
-		// TODO Auto-generated method stub
-		return false;
+	public final boolean MovePieceForward(byte X, byte Y) {
+		if((Y + 1) > 7)
+		{
+			return false;
+		}
+
+		MoveBuffer.fromX = X;
+		MoveBuffer.fromY = Y;
+		MoveBuffer.toX = X;
+		MoveBuffer.toY = Y + 1;
+		
+		Board.RotateMove(MoveBuffer, CurrentDirection);
+		
+		if(Field[MoveBuffer.toX][MoveBuffer.toY] != -1)
+		{
+			return false;
+		}
+
+		ProcessMove(MoveBuffer);
+		
+		return true;
 	}
 
-	public boolean MovePieceLeft(byte X, byte Y) {
-		// TODO Auto-generated method stub
-		return false;
+	public final boolean MovePieceLeft(byte X, byte Y) {	
+		if((Y + 1) > 7)
+		{
+			return false;
+		}
+		
+		if((X - 1) < 0)
+		{
+			return false;
+		}
+	
+		MoveBuffer.fromX = X;
+		MoveBuffer.fromY = Y;
+		MoveBuffer.toX = X - 1;
+		MoveBuffer.toY = Y + 1;
+		
+		Board.RotateMove(MoveBuffer, CurrentDirection);
+		
+		byte FieldValue = Field[MoveBuffer.toX][MoveBuffer.toY];
+		if((FieldValue == -1) || (FieldValue == CurrentDirection))
+		{
+			return false;
+		}
+	
+		ProcessMove(MoveBuffer);
+		
+		return true;
 	}
 
-	public boolean MovePieceRight(byte X, byte Y) {
-		// TODO Auto-generated method stub
-		return false;
+	public final boolean MovePieceRight(byte X, byte Y) {
+		if((Y + 1) > 7)
+		{
+			return false;
+		}
+		
+		if((X + 1) > 7)
+		{
+			return false;
+		}
+	
+		MoveBuffer.fromX = X;
+		MoveBuffer.fromY = Y;
+		MoveBuffer.toX = X + 1;
+		MoveBuffer.toY = Y + 1;
+		
+		Board.RotateMove(MoveBuffer, CurrentDirection);
+		
+		byte FieldValue = Field[MoveBuffer.toX][MoveBuffer.toY];
+		if((FieldValue == -1) || (FieldValue == CurrentDirection))
+		{
+			return false;
+		}
+	
+		ProcessMove(MoveBuffer);
+		
+		return true;
 	}
 
 	public void DoMove(Move Move) {
