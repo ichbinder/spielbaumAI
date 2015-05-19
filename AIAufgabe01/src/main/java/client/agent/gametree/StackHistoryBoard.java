@@ -361,7 +361,7 @@ public final class StackHistoryBoard implements IStackHistoryBoard {
 			case 3: //Left
 				return (byte) (7 - X);
 			default: 
-				return X;
+				return Y;
 		}
 	}
 	
