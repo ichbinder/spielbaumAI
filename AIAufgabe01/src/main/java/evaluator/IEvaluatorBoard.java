@@ -1,7 +1,7 @@
 package evaluator;
 
 public interface IEvaluatorBoard {
-	public byte[][] GetPosition(byte PlayerID);
+	void GetActivePlayers(boolean[] ActivePlayer);
+	void GetPositions(int PlayerID, byte[][] Positions);
 	byte GetField(byte x, byte y);
-	boolean[] GetActivePlayers();
 }

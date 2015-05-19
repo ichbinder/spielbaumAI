@@ -8,7 +8,7 @@ public interface IStackHistoryBoard extends IEvaluatorBoard {
 	
 	void Setup(IBoard CurrentBoard);
 	
-	byte[][] GetPiecePositions();
+	void GetPiecePositions(byte[][] Positions);
 	boolean MovePieceForward(byte X, byte Y);
 	boolean MovePieceLeft(byte X, byte Y);
 	boolean MovePieceRight(byte X, byte Y);

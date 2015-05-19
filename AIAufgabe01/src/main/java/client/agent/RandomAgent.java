@@ -11,18 +11,19 @@ public class RandomAgent implements IAgent {
 	
 	public Move CalculateMove(IBoard GameBoard) {
 		
-		byte[][] Positions = GameBoard.GetPosition((byte)1);
+		byte[][] Positions = new byte[6][2];
+		GameBoard.GetPositions(0, Positions);
 		
 		while(true)
 		{
 			System.out.println("Starting Random Endless Loop");
 		
-			byte Index = 127;
+			byte Index = -1;
 
 			do {
 				Index = (byte)Rng.nextInt(6);
 				System.out.println("Looking for Index - " + Index);
-			} while(Positions[Index][0] == 127);
+			} while(Positions[Index][0] == -1);
 			
 			byte X = Positions[Index][0];
 			byte Y = Positions[Index][1];

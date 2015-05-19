@@ -20,6 +20,8 @@ public final class GameTreeAgent implements IAgent {
 	private int NodePoolIndex = 0;
 	private List<TreeNode> BestLeafs = new ArrayList<TreeNode>(18);
 	
+	private byte[][] PiecePositions = new byte[6][2];
+	
 	private IStackHistoryBoard Board = new StackHistoryBoard();
 	private IEvaluator Evaluator = null;
 
@@ -86,7 +88,7 @@ public final class GameTreeAgent implements IAgent {
 		boolean IsPlayerMove = Board.IsPlayersView();
 		int NodePoolIndexBuffer = NodePoolIndex;
 		LinkedList<TreeNode> SortedList = new LinkedList<TreeNode>();
-		byte[][] PiecePositions = Board.GetPiecePositions();
+		Board.GetPiecePositions(PiecePositions);
 		
 		for(int i = 0; i < 6; i++)
 		{

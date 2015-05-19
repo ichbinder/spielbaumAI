@@ -300,24 +300,79 @@ public final class StackHistoryBoard implements IStackHistoryBoard {
 		}
 	}
 
-	public byte[][] GetPosition(byte PlayerID) {
-		// TODO Auto-generated method stub
-		return null;
+	private final byte RotateX(byte X, byte Y, int CounterClockwiseSteps)
+	{	
+		/*
+		 * 		x,y
+		 * 			7-y,x
+		 * 			7-x,7-y
+		 * 			y,7-x
+		 */	
+	
+		switch(CounterClockwiseSteps) 
+		{
+			case 1: //Right
+				return (byte) (7 - Y);
+			case 2: //Opposite
+				return (byte) (7 - X);
+			case 3: //Left
+				return Y;
+			default: 
+				return X;
+		}
+	}
+	
+	private final byte RotateY(byte X, byte Y, int CounterClockwiseSteps)
+	{	
+		/*
+		 * 		x,y
+		 * 			7-y,x
+		 * 			7-x,7-y
+		 * 			y,7-x
+		 */	
+		
+		switch(CounterClockwiseSteps) 
+		{
+			case 1: //Right
+				return X;
+			case 2: //Opposite
+				return (byte) (7 - Y);
+			case 3: //Left
+				return (byte) (7 - X);
+			default: 
+				return X;
+		}
+	}
+	
+	public final byte GetField(byte X, byte Y) {
+		return Field[RotateX(X,Y,CurrentDirection)][RotateY(X,Y,CurrentDirection)];
 	}
 
-	public byte GetField(byte x, byte y) {
-		// TODO Auto-generated method stub
-		return 0;
+	public final void GetActivePlayers(boolean[] ActivePlayer) {
+		for(int i = 0; i < 4; i++)
+		{
+			ActivePlayer[i] = this.ActivePlayers[(4 + i - CurrentDirection) % 4];
+		}
 	}
 
-	public boolean[] GetActivePlayers() {
-		// TODO Auto-generated method stub
-		return null;
+	public final void GetPiecePositions(byte[][] Positions) {
+		GetPositions(CurrentDirection, Positions);
 	}
-
-	public byte[][] GetPiecePositions() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public final void GetPositions(int PlayerID, byte[][] Positions) {
+		for(int i = 0; i < 6; i++)
+		{
+			if(Position[PlayerID][i][0] == -1)
+			{
+				Positions[i][0] = -1;
+				Positions[i][1]	= -1;	
+			}
+			else
+			{
+				Positions[i][0] = RotateX(Position[PlayerID][i][0],Position[PlayerID][i][1], CurrentDirection);
+				Positions[i][1]	= RotateY(Position[PlayerID][i][0],Position[PlayerID][i][1], CurrentDirection);
+			}
+		}		
 	}
 
 	public final boolean IsCurrentPlayerActive() {
