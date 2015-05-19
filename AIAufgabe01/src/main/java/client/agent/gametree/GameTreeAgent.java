@@ -73,6 +73,16 @@ public final class GameTreeAgent implements IAgent {
 			return Parent.Value;
 		}
 		
+		//When current player is out, just rotate and skip to next one
+		if(!Board.IsCurrentPlayerActive())
+		{
+			int Value = 0;
+			Board.RotateBoard();
+			Value = ComputeTreeLevel(MaxPlayerRounds, Parent, Alpha, Beta);
+			Board.Pop();
+			return Value;
+		}
+		
 		boolean IsPlayerMove = Board.IsPlayersView();
 		int NodePoolIndexBuffer = NodePoolIndex;
 		LinkedList<TreeNode> SortedList = new LinkedList<TreeNode>();
@@ -81,7 +91,7 @@ public final class GameTreeAgent implements IAgent {
 		for(int i = 0; i < 6; i++)
 		{
 			byte[] Position = PiecePositions[i];
-			if(Position[0] > 7)
+			if(Position[0] == -1)
 			{
 				continue;
 			}
@@ -89,16 +99,19 @@ public final class GameTreeAgent implements IAgent {
 			if(Board.MovePieceForward(Position[0], Position[1]))
 			{
 				SetupNode(SortedList, Parent, Position[0], Position[1], Position[0], Position[1] + 1);
+				Board.Pop();
 			}
 			
 			if(Board.MovePieceLeft(Position[0], Position[1]))
 			{
 				SetupNode(SortedList, Parent, Position[0], Position[1], Position[0] - 1, Position[1] + 1);
+				Board.Pop();
 			}
 			
 			if(Board.MovePieceRight(Position[0], Position[1]))
 			{
 				SetupNode(SortedList, Parent, Position[0], Position[1], Position[0] + 1, Position[1] + 1);
+				Board.Pop();
 			}
 		}
 		
@@ -188,7 +201,6 @@ public final class GameTreeAgent implements IAgent {
 		
 		int Value =  Evaluator.Evaluate(Board);
 		NewNode.Setup(Parent, Value, fromX, fromY, ToX, ToY);
-		Board.Pop();
 		
 		ListIterator<TreeNode> It = SortedList.listIterator();
 		boolean Inserted = false;

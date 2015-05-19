@@ -17,4 +17,5 @@ public interface IStackHistoryBoard extends IEvaluatorBoard {
 	void Forfeit();
 	void Pop();
 	boolean IsPlayersView();
+	boolean IsCurrentPlayerActive();
 }
