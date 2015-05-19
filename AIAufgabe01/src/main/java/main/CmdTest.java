@@ -12,9 +12,12 @@ import client.Client;
 import client.IClient;
 import client.agent.IAgent;
 import client.agent.RandomAgent;
+import client.agent.gametree.GameTreeAgent;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
+
+import evaluator.DummyEvaluator;
 
 public class CmdTest
 {
@@ -52,7 +55,20 @@ public class CmdTest
 				}	if (so.getHelp() == true)
 					cmd.usage();
 			}
-			
+			else if(arge.get(0).equals("test"))
+			{
+				IClient sp = null;
+				
+				sp = new Client("A-R", new RandomAgent());
+				sp.ConnectToLocalhost();
+				sp = new Client("B-R", new RandomAgent());
+				sp.ConnectToLocalhost();
+				sp = new Client("C-R", new RandomAgent());
+				sp.ConnectToLocalhost();
+
+				sp = new Client("Tree", new GameTreeAgent(new DummyEvaluator()));
+				sp.ConnectToLocalhost();
+			}
 		} while (!arge.get(0).equals("end"));
 		
 	}
