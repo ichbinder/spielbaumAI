@@ -4,6 +4,7 @@ public class DummyEvaluator implements IEvaluator {
 	
 	private boolean[] ActivePlayerBuffer = new boolean[4];
 	private byte[][] PositionsBuffer = new byte[6][2];
+	
 
 	public final int Evaluate(IEvaluatorBoard Board) {
 		int Score = 0;
@@ -37,7 +38,7 @@ public class DummyEvaluator implements IEvaluator {
 			}
 			else
 			{
-				Score -= 100;
+				Score -= 1000;
 			}
 		}
 		
@@ -48,12 +49,11 @@ public class DummyEvaluator implements IEvaluator {
 				Board.GetPositions(i, PositionsBuffer);
 				if(PositionsBuffer[i][0] == -1)
 				{
-					Score += 10;
+					Score += 100;
 				}				
 			}
 		}
 		
 		return Score;
 	}
-
 }
