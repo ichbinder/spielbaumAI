@@ -39,8 +39,8 @@ public class CmdTest
 				ClientOptions opt = new ClientOptions();
 				JCommander cmd = CmdTest.cmdPaser(arge, opt);
 				if (opt.getStart() == true) {
-					IAgent ra = new RandomAgent();
-					IClient sp = new Client(opt.getClientName(), ra);
+					IAgent gta = new GameTreeAgent(new DummyEvaluator());
+					IClient sp = new Client(opt.getClientName(), gta);
 					sp.Connect(opt.getGameServerIP());
 					System.out.println("Client Starded!");
 				} if (opt.getHelp() == true)
