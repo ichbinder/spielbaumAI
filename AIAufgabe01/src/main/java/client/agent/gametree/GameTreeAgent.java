@@ -58,6 +58,17 @@ public final class GameTreeAgent implements IAgent {
 
 		Board.Setup(GameBoard);
 		
+		// Dirty Hack is dirty
+		if((Board.GetField((byte)1, (byte)0) == 0) && (Board.GetField((byte)0, (byte)1) > 0)) 
+		{
+			return new Move(1,0,0,1);
+		}
+		else if((Board.GetField((byte)6, (byte)0) == 0) && (Board.GetField((byte)7, (byte)1) > 0)) 
+		{
+			return new Move(6,0,7,1);
+		}
+		//Dirty Hack ends here
+		
 		long Start = System.nanoTime();
 		
 		//Start GameTree Calculation
