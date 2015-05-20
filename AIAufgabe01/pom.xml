@@ -18,6 +18,9 @@
 							<classpathPrefix>lib/</classpathPrefix>
 							<mainClass>main.CmdTest</mainClass>
 						</manifest>
+                    <manifestEntries>
+            			<Class-Path>lib/kimpl-1.0.jar</Class-Path> 
+                    </manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>
@@ -70,9 +73,9 @@
 		<dependency>
 			<groupId>kimpl</groupId>
 			<artifactId>kimpl</artifactId>
-			<scope>system</scope>
 			<version>1.0</version>
 			<systemPath>${basedir}/META-INF/resources/META-INF/kimpl.jar</systemPath>
+			<scope>system</scope>
 		</dependency>
 	</dependencies>
 </project>
