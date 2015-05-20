@@ -1,6 +1,9 @@
 package client;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import client.agent.IAgent;
 import client.game.Board;
@@ -17,13 +20,16 @@ public class Client implements IClient, Runnable {
 	private byte PlayerID = 0;
 	private boolean Ingame = true;
 	
+	private String ImagePath = "";
+	
 	private IBoard GameBoard = null;
 	private IAgent Bot = null;
 	
-	public Client(String Name, IAgent Bot)
+	public Client(String Name, IAgent Bot, String ImagePath)
 	{
 		this.Name = Name;
 		this.Bot = Bot;
+		this.ImagePath = ImagePath;
 	}
 
 	public void ConnectToLocalhost() {
@@ -44,7 +50,20 @@ public class Client implements IClient, Runnable {
 	
 	private void Setup()
 	{
-		BufferedImage Img = new BufferedImage(256, 256, BufferedImage.TYPE_3BYTE_BGR);
+		BufferedImage Img = null;
+		if(!ImagePath.equals(""))
+		{
+			try {
+				Img = ImageIO.read(Client.class.getResourceAsStream(ImagePath));
+			} catch (IOException e) {
+				Img = null;
+			}
+		}
+		
+		if(Img == null)
+		{
+			Img = new BufferedImage(256, 256, BufferedImage.TYPE_3BYTE_BGR);
+		}
 		GameSocket = new NetworkClient(Server, Name, Img);
 		
 		PlayerID = (byte) GameSocket.getMyPlayerNumber();		

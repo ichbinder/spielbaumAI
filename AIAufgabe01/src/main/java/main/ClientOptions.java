@@ -7,7 +7,7 @@ import com.beust.jcommander.Parameters;
 public class ClientOptions
 {
 	@Parameter(names = {"-n", "--name"}, description = "Client Name")
-	private String	name = "Client";
+	private String	name = "Random";
 	
 	@Parameter(names = {"-s", "--start"}, required = true, description = "Start Client")
 	private boolean	start;
@@ -22,7 +22,7 @@ public class ClientOptions
 	private String	intercomIP = "localhost";
 	
 	@Parameter(names = {"-i", "--pathToImage"}, description = "Start Client")
-	private String	pathToImage = "/META-INF/icon.png";
+	private String	pathToImage = "/icon.png";
 	
 	@Parameter(names = {"-h", "--help"}, help = true, description = "Show this help.")
 	private boolean help;

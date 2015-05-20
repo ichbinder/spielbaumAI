@@ -40,7 +40,7 @@ public class CmdTest
 				JCommander cmd = CmdTest.cmdPaser(arge, opt);
 				if (opt.getStart() == true) {
 					IAgent gta = new GameTreeAgent(new DummyEvaluator());
-					IClient sp = new Client(opt.getClientName(), gta);
+					IClient sp = new Client(opt.getClientName(), gta, opt.getPathToImage());
 					sp.Connect(opt.getGameServerIP());
 					System.out.println("Client Starded!");
 				} if (opt.getHelp() == true)
@@ -57,16 +57,23 @@ public class CmdTest
 			}
 			else if(arge.get(0).equals("test"))
 			{
+				ClientOptions opt = new ClientOptions();
+				JCommander cmd = CmdTest.cmdPaser(arge, opt);
+				
 				IClient sp = null;
 				
-				sp = new Client("A-R", new RandomAgent());
+				sp = new Client("A-R", new RandomAgent(), opt.getPathToImage());
 				sp.ConnectToLocalhost();
-				sp = new Client("B-R", new RandomAgent());
-				sp.ConnectToLocalhost();
-				sp = new Client("C-R", new RandomAgent());
-				sp.ConnectToLocalhost();
+				//sp = new Client("B-R", new RandomAgent());
+				//sp.ConnectToLocalhost();
+				//sp = new Client("C-R", new RandomAgent());
+				//sp.ConnectToLocalhost();
 
-				sp = new Client("Tree", new GameTreeAgent(new DummyEvaluator()));
+				sp = new Client("Tree", new GameTreeAgent(new DummyEvaluator()), opt.getPathToImage());
+				sp.ConnectToLocalhost();
+				sp = new Client("Tree B", new GameTreeAgent(new DummyEvaluator()), opt.getPathToImage());
+				sp.ConnectToLocalhost();
+				sp = new Client("Tree C", new GameTreeAgent(new DummyEvaluator()), opt.getPathToImage());
 				sp.ConnectToLocalhost();
 			}
 		} while (!arge.get(0).equals("end"));
