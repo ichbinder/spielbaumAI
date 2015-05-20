@@ -72,7 +72,7 @@
 			<artifactId>kimpl</artifactId>
 			<scope>system</scope>
 			<version>1.0</version>
-			<systemPath>${basedir}/src/lib/kimpl-1.0.jar</systemPath>
+			<systemPath>${basedir}/META-INF/resources/META-INF/kimpl.jar</systemPath>
 		</dependency>
 	</dependencies>
 </project>

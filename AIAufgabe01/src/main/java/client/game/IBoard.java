@@ -1,13 +1,16 @@
 package client.game;
 
+import evaluator.IEvaluatorBoard;
 import lenz.htw.kimpl.Move;
 
-public interface IBoard {
+public interface IBoard extends IEvaluatorBoard {
 	void ProcessMove(Move Move);
 
 	void RotateToPlayerSpace(Move Move);
 	void RotateToGameSpace(Move Move);
-	
-	public byte[][] GetPosition(byte PlayerID);
-	byte GetField(byte x, byte y);
+
+	byte[][] GetField();
+	byte[][] GetIndices();
+	byte[][][] GetPositions();
+	boolean[] GetActivePlayers();
 }

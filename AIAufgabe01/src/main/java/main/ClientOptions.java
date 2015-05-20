@@ -37,7 +37,7 @@ public class ClientOptions
 	{
 		return start;
 	}
-
+	
 	public String getGameServerIP()
 	{
 		return gameServerIP;

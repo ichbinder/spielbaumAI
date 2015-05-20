@@ -1,5 +1,7 @@
 package client.agent;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 import lenz.htw.kimpl.Move;
@@ -11,43 +13,71 @@ public class RandomAgent implements IAgent {
 	
 	public Move CalculateMove(IBoard GameBoard) {
 		
-		byte[][] Positions = GameBoard.GetPosition((byte)1);
+		byte[][] Positions = new byte[6][2];
+		GameBoard.GetPositions(0, Positions);
+		
+		List<Integer> Indices = new LinkedList<Integer>();
+		for(int i = 0; i < 6; i++)
+		{
+			Indices.add(i);
+		}
+		
 		
 		while(true)
 		{
-			System.out.println("Starting Random Endless Loop");
+			if(Indices.isEmpty())
+			{
+				return null;
+			}
 		
-			byte Index = 127;
+			int ListIndex = -1;
+			int PieceIndex = -1;
 
-			do {
-				Index = (byte)Rng.nextInt(6);
-				System.out.println("Looking for Index - " + Index);
-			} while(Positions[Index][0] == 127);
+			ListIndex = Rng.nextInt(Indices.size());
+			PieceIndex = Indices.get(ListIndex);
+			Indices.remove(ListIndex);
+			//System.out.println("Looking for Index - " + PieceIndex);
 			
-			byte X = Positions[Index][0];
-			byte Y = Positions[Index][1];
+			if(Positions[PieceIndex][0] == -1)
+			{
+				//System.out.println("No Piece!");
+				continue;
+			}
+			
+			byte X = Positions[PieceIndex][0];
+			byte Y = Positions[PieceIndex][1];
 
-			System.out.println("Piece " + X + " - " + Y);
+			//System.out.println("Piece " + X + " - " + Y);
 			
 			byte NewY = (byte)(Y + 1);
 			
-			if((X != 0) && (GameBoard.GetField((byte)(X - 1), NewY) > 1))
+			if(NewY > 7)
+			{
+				//System.out.println("Piece at end of Board");
+				continue;
+			}
+			
+			if((X != 0) && (GameBoard.GetField((byte)(X - 1), NewY) > 0))
 			{
 				return new Move(X,Y, X - 1, NewY);
 			}
 
-			if((X != 7) && (GameBoard.GetField((byte)(X + 1), NewY) > 1))
+			if((X != 7) && (GameBoard.GetField((byte)(X + 1), NewY) > 0))
 			{
 				return new Move(X,Y, X + 1, NewY);
 			}
 			
-			if(GameBoard.GetField(X, NewY) == 0)
+			if(GameBoard.GetField(X, NewY) == -1)
 			{
 				return new Move(X,Y, X, NewY);
 			}
 
 			System.out.println("No Move found!");
 		}
+	}
+
+	public final void PrintStats() {
+		//Nothing to do;
 	}
 	
 }
