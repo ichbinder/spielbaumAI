@@ -5,6 +5,15 @@ public class DummyEvaluator implements IEvaluator {
 	private boolean[] ActivePlayerBuffer = new boolean[4];
 	private byte[][] PositionsBuffer = new byte[6][2];
 	
+	private final static int ScorePerDefeatedPlayer = 15;
+	private final static int ScorePerRiskPiece = 10000;
+	private final static int ScorePerPotentialTake = 200;
+	private final static int ScorePerLostPiece = 5000;
+	private final static int ScorePerOtherLostPiece = 2000;
+	private final static int ScorePerOtherRiskPiece = 200;
+	private final static int ScorePerOtherPotentialTake = 200;
+	
+	
 
 	public final int Evaluate(IEvaluatorBoard Board) {
 		int Score = 0;
@@ -16,7 +25,7 @@ public class DummyEvaluator implements IEvaluator {
 		{
 			if(!ActivePlayerBuffer[i])
 			{
-				Score += 15;
+				Score += ScorePerDefeatedPlayer;
 			}
 			else
 			{
@@ -34,11 +43,21 @@ public class DummyEvaluator implements IEvaluator {
 		{
 			if(PositionsBuffer[i][0] != -1)
 			{
-				Score += 50;
+				byte X = PositionsBuffer[i][0];
+				byte Y = PositionsBuffer[i][1];
+				if(Board.CanBeTaken(X, Y))
+				{
+					Score -= ScorePerRiskPiece;
+				}
+				
+				if(Board.CanTakeOther(X, Y))
+				{
+					Score += ScorePerPotentialTake;
+				}
 			}
 			else
 			{
-				Score -= 1000;
+				Score -= ScorePerLostPiece;
 			}
 		}
 		
@@ -49,8 +68,24 @@ public class DummyEvaluator implements IEvaluator {
 				Board.GetPositions(i, PositionsBuffer);
 				if(PositionsBuffer[i][0] == -1)
 				{
-					Score += 100;
-				}				
+					Score += ScorePerOtherLostPiece;
+				}
+				else
+				{
+					byte X = PositionsBuffer[i][0];
+					byte Y = PositionsBuffer[i][1];
+					if(Board.CanBeTaken(X, Y))
+					{
+						Score += ScorePerOtherRiskPiece;
+					}
+					
+					if(Board.CanTakeOther(X, Y))
+					{
+						Score += ScorePerOtherPotentialTake;
+					}
+				}
+				
+				
 			}
 		}
 		
