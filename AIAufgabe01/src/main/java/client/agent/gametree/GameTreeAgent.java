@@ -28,10 +28,13 @@ public final class GameTreeAgent implements IAgent {
 	
 	private long[] Runtimes = new long[MaxRounds];
 	private int Rounds = 0;
+	
+	private int MaxPlayerRounds = 0;
 
-	public GameTreeAgent(IEvaluator Evaluator)
+	public GameTreeAgent(IEvaluator Evaluator, int Rounds)
 	{
 		this.Evaluator = Evaluator;
+		this.MaxPlayerRounds = Rounds;
 		NodePool = new ArrayList<TreeNode>(InitialNodePoolSize);
 		for(int i = 0; i < InitialNodePoolSize; i++)
 		{
@@ -72,7 +75,7 @@ public final class GameTreeAgent implements IAgent {
 		long Start = System.nanoTime();
 		
 		//Start GameTree Calculation
-		ComputeTreeLevel(2, null, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		ComputeTreeLevel(MaxPlayerRounds, null, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 		long End = System.nanoTime();
 		Runtimes[Rounds++] = End - Start;
@@ -99,7 +102,7 @@ public final class GameTreeAgent implements IAgent {
 	private final int ComputeTreeLevel(int MaxPlayerRounds, TreeNode Parent, int Alpha, int Beta)
 	{
 		//Abort if leaf is reached
-		if(MaxPlayerRounds == 0)
+		if((MaxPlayerRounds == 0) && (Parent != null))
 		{
 			return Parent.Value;
 		}
