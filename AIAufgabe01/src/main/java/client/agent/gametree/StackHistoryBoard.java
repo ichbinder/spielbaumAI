@@ -471,6 +471,109 @@ public final class StackHistoryBoard implements IStackHistoryBoard {
 
 		System.out.println("ActivePlayer: {" + tmp + "}");
 	}
+
+	public final boolean CanTakeOther(byte X, byte Y) {
+		byte PlayerID = GetField(X,Y);
+
+		//Rotate to that Player Space
+		byte PlayerSpaceX = RotateX(X, Y, PlayerID);
+		byte PlayerSpaceY = RotateY(X, Y, PlayerID);
+		
+		byte OtherY = (byte) (PlayerSpaceY + 1);
+		byte LeftX = (byte) (PlayerSpaceX - 1);
+		byte RightX= (byte) (PlayerSpaceX + 1);
+		
+		if(OtherY > 7)
+		{
+			return false;
+		}
+		
+		byte CCWRotation = (byte) (4 - PlayerID);
+		
+		//Check left and right
+		if(LeftX >= 0)
+		{
+			byte FieldValue = GetField(RotateX(LeftX, OtherY, CCWRotation), RotateY(LeftX, OtherY, CCWRotation));
+			if( (FieldValue != -1) && (FieldValue != PlayerID))
+			{
+				return true;
+			}
+		}
+	
+		if(RightX <= 7)
+		{
+			byte FieldValue = GetField(RotateX(RightX, OtherY, CCWRotation), RotateY(RightX, OtherY, CCWRotation));
+			if( (FieldValue != -1) && (FieldValue != PlayerID))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public final boolean CanBeTaken(byte X, byte Y) {
+		byte PlayerID = GetField(X,Y);
+	
+		//Rotate to that Player Space
+		byte PlayerSpaceX = RotateX(X, Y, PlayerID);
+		byte PlayerSpaceY = RotateY(X, Y, PlayerID);
+		
+		byte ForwardY = (byte) (PlayerSpaceY + 1);
+		byte RearY = (byte) (PlayerSpaceY - 1);
+		byte LeftX = (byte) (PlayerSpaceX - 1);
+		byte RightX= (byte) (PlayerSpaceX + 1);
+		
+		byte CCWRotation = (byte) (4 - PlayerID);
+		
+		byte LeftPlayerID = (byte)((PlayerID + 3) % 4);
+		byte OppositePlayerID = (byte)((PlayerID + 2) % 4);
+		byte RightPlayerID = (byte)((PlayerID + 1) % 4);
+		
+		if(ForwardY <= 7)
+		{
+			if(LeftX >= 0)
+			{
+				byte FieldValue = GetField(RotateX(LeftX, ForwardY, CCWRotation), RotateY(LeftX, ForwardY, CCWRotation));
+				if((FieldValue == OppositePlayerID) || (FieldValue == LeftPlayerID))
+				{
+					return true;
+				}
+			}
+			
+			if(RightX <= 7)
+			{
+				byte FieldValue = GetField(RotateX(RightX, ForwardY, CCWRotation), RotateY(RightX, ForwardY, CCWRotation));
+				if((FieldValue == OppositePlayerID) || (FieldValue == RightPlayerID))
+				{
+					return true;
+				}
+			}
+		}	
+		
+		if(RearY >= 0)
+		{
+			if(LeftX >= 0)
+			{
+				byte FieldValue = GetField(RotateX(LeftX, RearY, CCWRotation), RotateY(LeftX, RearY, CCWRotation));
+				if(FieldValue == LeftPlayerID)
+				{
+					return true;
+				}
+			}
+			
+			if(RightX <= 7)
+			{
+				byte FieldValue = GetField(RotateX(RightX, RearY, CCWRotation), RotateY(RightX, RearY, CCWRotation));
+				if(FieldValue == RightPlayerID)
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
 	
 	
 }

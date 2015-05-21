@@ -190,4 +190,14 @@ public final class Board implements IBoard {
 	public final boolean[] GetActivePlayers() {
 		return ActivePlayers;
 	}
+
+	public boolean CanTakeOther(byte X, byte Y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean CanBeTaken(byte X, byte Y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
